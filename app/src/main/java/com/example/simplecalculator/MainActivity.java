@@ -9,10 +9,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.text.DecimalFormat;
+import java.lang.Math;
 
 public class MainActivity extends AppCompatActivity {
     Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnPlus, btnMinus,
-    btnMulti, btnC, btnD, btnDivide, btnEq;
+    btnMulti, btnC, btnD, btnDivide, btnEq, btnEx;
 
     TextView display;
     String equation = new String("");
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         btn8 = findViewById(R.id.btn8);
         btn9 = findViewById(R.id.btn9);
         btnPlus = findViewById(R.id.btnPlus);
+        btnEx = findViewById(R.id.btnEx);
         btnMinus = findViewById(R.id.btnMinus);
         btnMulti = findViewById(R.id.btnMulti);
         btnC = findViewById(R.id.btnC);
@@ -269,6 +271,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnEx.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (!operatorAdded){
+                    equation = display.getText()+"^";
+                    lst.add(tempString);
+                    lst.add(new String("^"));
+                    tempString = new String("");
+                    display.setText(equation);
+                    operatorAdded=true;
+                    overwriteText=false;
+                    decimalPresent = false;
+                }
+            }
+        });
+
         btnMulti.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -352,7 +370,9 @@ public class MainActivity extends AppCompatActivity {
                 result = result * Double.parseDouble(right);
             } else if (op.equals("/")){
                 result = result / Double.parseDouble(right);
-            }
+            } else if (op.equals("^")){
+                result = Math.pow(result, Double.parseDouble(right));
+        }
         }
         return result;
     }
